@@ -94,7 +94,7 @@ var mergeSortedArrays = function(array, low, middle, high){
 //For this algorithm we will divide the array into x subarrays, sort each subarray then use the previous mergeSortedArrays() function to merge subarrays
 var timSort = function(array, run){
   for(var i = 0; i < array.length; i += run){
-    insertionSort(array, i, Math.max(array.length - 1, i + run));      //if array size doesn't divide run evenly then takes last parameters
+    insertionSort(array, i, Math.min(array.length - 1, i + run));      //if array size doesn't divide run evenly then takes last parameters
   }
   var bound = run;
   while(bound < array.length){
@@ -125,4 +125,38 @@ var insertionSort = function(array, low, high){
     }
     array[index2 + 1] = temp;
   }
+}
+
+//An O(n^2) sorting algorithm that repeatedly steps through the list
+exports.bubbleSort = function(array){
+    for(var indx = 0; indx < array.length - 1; indx++){
+      for(var indx2 = 0; indx2 < array.length - 1 - indx; indx2++){
+        if (array[indx2] > array[indx2 + 1]){
+          [array[indx2 + 1], array[indx2]] = [array[indx2], array[indx2 + 1]];
+        }
+      }
+    }
+
+    return array;
+}
+
+//An O(n^2) sorting algorithm that is advantageous where auxiliary memory is limited
+exports.selectionSort = function(array){
+    if (array.size < 2){
+      return array;
+    }
+
+    for(var indx = 0; indx < array.length - 1; indx++){
+      var minIndx = indx;
+
+      for(var indx2 = indx + 1; indx2 < array.length; indx2++){
+        if (array[minIndx] > array[indx2]){
+          minIndx = indx2;
+        }
+      }
+
+      [array[indx], array[minIndx]] = [array[minIndx], array[indx]];
+    }
+
+    return array;
 }
